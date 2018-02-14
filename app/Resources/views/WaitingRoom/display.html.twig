@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+
+{% block meta %}
+     <meta http-equiv="refresh" content="5" />
+{% endblock %}
+
+
+{% block body %}
+    <div class="container">
+
+        <div class="row">
+            {% for turn in turns %}
+
+                {% if turn.state.id == 2 %}
+                    <div class="alert alert-success">
+                        <h1> <strong>Atendiendo a {{ turn.label }}</strong> en posición {{turn.position.name}} </a>.
+                    </div>
+                {% endif %}
+
+            {% endfor %}    
+        </div>
+        <div class="row">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Turno</th>
+                        <th>Posicion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for turn in turns %}
+
+                        {% if turn.state.id == 2 %}
+                            <tr class="table-info">
+                            {% else %}
+                            <tr>
+                            {% endif %}
+                            <td>{{ turn.label}}</td>                        
+                            <td>{% if turn.position is null %} - {% else %} {{turn.position.name}} {% endif %}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+{% endblock%}

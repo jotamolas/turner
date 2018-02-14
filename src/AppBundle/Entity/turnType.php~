@@ -1,0 +1,81 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * turnerType
+ *
+ * @ORM\Table(name="turn_type")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\turnerTypeRepository")
+ */
+class turnType {
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=255)
+     */
+    private $description;
+
+    /**
+     *
+     * @var string
+     * @ORM\Column(name="suffix", type="string", length=10) 
+     */
+    private $suffix;
+
+
+
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="turnerRange", mappedBy="type")
+     */
+    private $ranges;
+
+    public function __construct() {
+        $this->ranges = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId() {
+        return $this->id;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return turnerType
+     */
+    public function setDescription($description) {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription() {
+        return $this->description;
+    }
+
+}

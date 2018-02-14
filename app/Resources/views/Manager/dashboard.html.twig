@@ -1,0 +1,161 @@
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <h2> Gestor de Turnos </h2>
+        </div>
+
+        <div class="row">
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ label }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+
+
+        <div class="row">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Turno</th>
+                        <th>Agente</th>
+                        <th>Posicion</th>
+                        <th>Estado</th>
+                        <th>Tomar</th>
+                        <th>Finalizar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for turn in turns %}
+                        <tr>
+                            <td>{{ turn.date | date('d-m-Y' )}}</td>
+                            <td>{{ turn.time | date('H:i') }}</td>
+                            <td>{{ turn.label}}</td>
+                            <td>{% if turn.agent is null%} - {% else %} {{turn.agent.username}} {% endif %} </td>
+                            <td>{% if turn.position is null %} - {% else %} {{turn.position.name}} {% endif %}</td>
+                            <td>{{ turn.state.description | upper }}</td>
+                            <td>
+                                <a class="btn btn-dark btn-sm" href="{{ path('turn_assign', {'turn': turn.id, 'agent': 1}) }}">Tomar</a>
+                            </td>
+                            <td>
+                                <a class="btn btn-dark btn-sm" href="{{ path('turn_end', {'turn': turn.id}) }}">Finalizar</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!--
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <h3 class="card-header">Turnos en Curso</h3>
+                            <div class="card-block">
+                                <table class="table table-asiggned">
+                                    <thead>
+                                        <tr>
+                                            <th>Fecha</th>
+                                            <th>Hora</th>
+                                            <th>Turno</th>
+                                            <th>Agente</th>
+                                            <th>Posicion</th>
+                                            <th>Estado</th>
+                                            <th>Finalizar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+        {#% for turn in turns_assigned %}
+            <tr>
+                <td>{{ turn.date | date('d-m-Y' )}}</td>
+                <td>{{ turn.time | date('H:i') }}</td>
+                <td>{{ turn.label}}</td>
+                <td>{% if turn.agent is null%} - {% else %} {{turn.agent}} {% endif %} </td>
+                <td>{% if turn.position is null %} - {% else %} {{turn.position}} {% endif %}</td>
+                <td>{{ turn.state.description | upper }}</td>
+                <td>
+                    <button class="btn btn-dark btn-sm">Finalizar</button>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+</div> 
+</div>
+</div>
+
+
+<div class="row">
+<div class="col-6">
+<div class="card">
+<h3 class="card-header">Turnos Atendidos</h3>
+<div class="card-block">
+<table class="table table-asiggned">
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Turno</th>
+            <th>Agente</th>
+            <th>Posicion</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for turn in turns_attendend%}
+            <tr>
+                <td>{{ turn.date | date('d-m-Y' )}}</td>
+                <td>{{ turn.time | date('H:i') }}</td>
+                <td>{{ turn.label}}</td>
+                <td>{% if turn.agent is null%} - {% else %} {{turn.agent}} {% endif %} </td>
+                <td>{% if turn.position is null %} - {% else %} {{turn.position}} {% endif %}</td>
+                <td>{{ turn.state.description | upper }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+</div> 
+</div>  
+<div class="col-6">
+<div class="card">
+<h3 class="card-header">Turnos Perdidos</h3>
+<div class="card-block">
+<table class="table table-asiggned">
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Turno</th>
+            <th>Agente</th>
+            <th>Posicion</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for turn in turns_not_attendend %}
+            <tr>
+                <td>{{ turn.date | date('d-m-Y' )}}</td>
+                <td>{{ turn.time | date('H:i') }}</td>
+                <td>{{ turn.label}}</td>
+                <td>{% if turn.agent is null%} - {% else %} {{turn.agent}} {% endif %} </td>
+                <td>{% if turn.position is null %} - {% else %} {{turn.position}} {% endif %}</td>
+                <td>{{ turn.state.description | upper }}</td>
+            </tr>
+        {% endfor %#}
+    </tbody>
+</table>
+</div>
+</div> 
+</div>
+</div>
+        -->
+    </div>
+{% endblock%}

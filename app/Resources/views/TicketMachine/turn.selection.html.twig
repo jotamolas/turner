@@ -1,0 +1,44 @@
+
+{% extends 'base.html.twig' %}
+
+
+{% block stylesheets %}
+    
+{% endblock %}
+
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">Farmacia</h1>
+                <p class="lead">Por favor elija el tipo de atención requerida para iniciar. Gracias</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <a class="card-link" href="{{ path('turn_new', {'type':'par'} )}}">
+                    <div class="card text-center text-white bg-primary mb-5">        
+                        <div class="card-body">
+                            <h5 class="card-title">Particular</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a  class="card-link" href="{{ path('turn_new', {'type':'os'} )}}">
+                    <div class="card text-center text-white bg-secondary mb-5">        
+                        <div class="card-body">
+                            <h5 class="card-title">Obra Social</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+
+    </div>
+{% endblock%}
+
+
