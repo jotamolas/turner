@@ -3,7 +3,7 @@
 
 
 {% block stylesheets %}
-    
+
 {% endblock %}
 
 
@@ -11,8 +11,15 @@
     <div class="container-fluid">
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
-                <h1 class="display-4">Farmacia</h1>
-                <p class="lead">Por favor elija el tipo de atención requerida para iniciar. Gracias</p>
+                <div class="row">
+                    <div class="col">
+                        <img src="{{ asset('bundles/app/images/logo.png') }}" alt="">
+                    </div>
+                    <div class="col">
+                        <h1 class="display-4">Bienvenidos</h1>
+                        <p class="lead">Por favor elija el tipo de atención requerida para iniciar. Gracias</p>
+                    </div>
+                </div>
             </div>
         </div>
 
