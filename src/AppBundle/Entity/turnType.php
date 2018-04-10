@@ -39,9 +39,16 @@ class turnType {
     /**
      *
      * @var boolean
-     * @ORM\Column(name="isEnabled", type="boolean") 
+     * @ORM\Column(name="is_enabled", type="boolean") 
      */
     private $isEnabled;
+    
+    /**
+     *
+     * @var string
+     * @ORM\Column(name="panel_color", type="string", length=7) 
+     */
+    private $panelColor;
 
     /**
      *
@@ -143,29 +150,6 @@ class turnType {
         return $this->ranges;
     }
 
-    /**
-     * Set isEnabled
-     *
-     * @param boolean $isEnabled
-     *
-     * @return turnType
-     */
-    public function setIsEnabled($isEnabled)
-    {
-        $this->isEnabled = $isEnabled;
-
-        return $this;
-    }
-
-    /**
-     * Get isEnabled
-     *
-     * @return boolean
-     */
-    public function getIsEnabled()
-    {
-        return $this->isEnabled;
-    }
 
     /**
      * Add line
@@ -199,5 +183,55 @@ class turnType {
     public function getLines()
     {
         return $this->lines;
+    }
+
+    /**
+     * Set isEnabled
+     *
+     * @param boolean $isEnabled
+     *
+     * @return turnType
+     */
+    public function setIsEnabled($isEnabled)
+    {
+        $this->isEnabled = $isEnabled;
+
+        return $this;
+    }
+
+    /**
+     * Get isEnabled
+     *
+     * @return boolean
+     */
+    public function getIsEnabled()
+    {
+        return $this->isEnabled;
+    }
+
+
+
+    /**
+     * Set panelColor
+     *
+     * @param string $panelColor
+     *
+     * @return turnType
+     */
+    public function setPanelColor($panelColor)
+    {
+        $this->panelColor = $panelColor;
+
+        return $this;
+    }
+
+    /**
+     * Get panelColor
+     *
+     * @return string
+     */
+    public function getPanelColor()
+    {
+        return $this->panelColor;
     }
 }

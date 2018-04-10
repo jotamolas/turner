@@ -27,7 +27,7 @@ class Printer {
      * 
      * @param turn $turn
      */
-    public function printTicket(turn $turn) {
+    public function printAlgo(turn $turn) {
         
         $connector = new \Mike42\Escpos\PrintConnectors\CupsPrintConnector('TM-T20II');
         $printer = new \Mike42\Escpos\Printer($connector);
@@ -43,7 +43,7 @@ class Printer {
      * 
      * @param turn $turn
      */
-    public function printAlgo(turn $turn) {
+    public function printTicket(turn $turn) {
         
         $connector = new \Mike42\Escpos\PrintConnectors\CupsPrintConnector('TM-T20II');
         $printer = new \Mike42\Escpos\Printer($connector);
@@ -52,8 +52,8 @@ class Printer {
         $package = $this->container->get('assets.packages');
         
         
-        dump(dirname(__FILE__).'/rgp_logo_offset.png');
-
+        //dump(dirname(__FILE__).'/rgp_logo_offset.png');
+/*
         $logo = \Mike42\Escpos\EscposImage::load(dirname(__FILE__).'/rgp_logo_offset.png');
         $printer->setJustification(\Mike42\Escpos\Printer::JUSTIFY_CENTER);
         $printer->graphics($logo);
@@ -63,15 +63,18 @@ class Printer {
         $printer->text("Revise el siguiente turno en pantalla. Gracias\n");
         $printer->feed(2);
         $printer->setTextSize(5,5);
-        $printer->text("PAR-001\n");
+        $printer->text($turn->getLabel()."\n");
         $printer->feed(3);
         $printer->setTextSize(1,1);        
         $printer->text("Gracias por visitarnos.\n");
         $printer->text("Lo invitamos a conocer nuestra WEB\n");
         $printer->setEmphasis();
-        $printer->text("www.redgeneralpaz.com\n");
+        $printer->text("www.redgeneralpaz.com\n");        
+        $printer->feed(1);
+        $printer->text($turn->getDate()->format('d/m/Y')."   ".$turn->getTime()->format("H:i:s")."\n");
         $printer->cut();
         $printer->pulse();
-        $printer->close();
+        $printer->close();*/
+        
     }
 }

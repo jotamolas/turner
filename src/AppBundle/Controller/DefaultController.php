@@ -39,41 +39,23 @@ class DefaultController extends Controller {
     /**
      * @Route("/turn/new/{type}", name="turn_new")
      */
-    public function newTurnAction($type) {
-
-        switch ($type) {
-            case 'par':
-                $turn_type = $this->getDoctrine()->getRepository(turnType::class)->find(1);
-                break;
-            case 'os':
-                $turn_type = $this->getDoctrine()->getRepository(turnType::class)->find(2);
-                break;
-            default:
-                die();
-                break;
-        }
-
+    public function newTurnAction(turnType $type) {
 
         $turn_line = $this->getDoctrine()->getRepository(turnLine::class)->findOneBy([
             "date" => new \DateTime(),
-            "type" => $turn_type
+            "type" => $type
         ]);
 
         if ($turn_line) {
 
             $em = $this->getDoctrine()->getManager();
 
-
-
             $last_turn = $em->createQuery(
                             'SELECT max(t.id) FROM AppBundle:turn t WHERE t.line = :line'
                     )
                     ->setParameter('line', $turn_line)
                     ->getSingleScalarResult();
-
-
-
-            dump($turn_line);
+           
 
 
             if ($last_turn) {
@@ -89,7 +71,9 @@ class DefaultController extends Controller {
                 /* ->setAgent($this->getDoctrine()->getRepository(\AppBundle\Entity\agent::class)->find(1)) */;
                 $em->persist($turn);
                 $em->flush();
+                
             } else {
+                
                 $turn = new turn();
                 $turn->setLine($turn_line)
                         ->setNumber('1')
@@ -114,9 +98,9 @@ class DefaultController extends Controller {
             
             $turn_line = new turnLine();
             $turn_line
-                    ->setDescription($turn_type->getDescription() . "-" . date('ymd'))
+                    ->setDescription($type->getDescription() . "-" . date('ymd'))
                     ->setDate(new \DateTime())
-                    ->setType($turn_type);
+                    ->setType($type);
 
             
             $em->persist($turn_line);            
@@ -130,12 +114,11 @@ class DefaultController extends Controller {
                     ->setNumber('1');
             $em->persist($turn);
             $em->flush();
-
-            dump($turn_line);
+            
         }
-
-
-
+        
+        /* impresión de turno */
+        $this->get('print.service')->printTicket($turn);
         return $this->render('TicketMachine/turn.print.html.twig', [
                     'turn' => $turn
         ]);

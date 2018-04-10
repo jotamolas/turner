@@ -39,9 +39,16 @@ class turnType {
     /**
      *
      * @var boolean
-     * @ORM\Column(name="isEnabled", type="boolean") 
+     * @ORM\Column(name="is_enabled", type="boolean") 
      */
     private $isEnabled;
+    
+    /**
+     *
+     * @var string
+     * @ORM\Column(name="panel_color", type="string", length=6) 
+     */
+    private $panelColor;
 
     /**
      *
@@ -142,4 +149,65 @@ class turnType {
     {
         return $this->ranges;
     }
+
+
+    /**
+     * Add line
+     *
+     * @param \AppBundle\Entity\turnLine $line
+     *
+     * @return turnType
+     */
+    public function addLine(\AppBundle\Entity\turnLine $line)
+    {
+        $this->lines[] = $line;
+
+        return $this;
+    }
+
+    /**
+     * Remove line
+     *
+     * @param \AppBundle\Entity\turnLine $line
+     */
+    public function removeLine(\AppBundle\Entity\turnLine $line)
+    {
+        $this->lines->removeElement($line);
+    }
+
+    /**
+     * Get lines
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLines()
+    {
+        return $this->lines;
+    }
+
+    /**
+     * Set isEnabled
+     *
+     * @param boolean $isEnabled
+     *
+     * @return turnType
+     */
+    public function setIsEnabled($isEnabled)
+    {
+        $this->isEnabled = $isEnabled;
+
+        return $this;
+    }
+
+    /**
+     * Get isEnabled
+     *
+     * @return boolean
+     */
+    public function getIsEnabled()
+    {
+        return $this->isEnabled;
+    }
+
+
 }

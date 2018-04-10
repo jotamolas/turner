@@ -1,32 +1,50 @@
 
 {% extends 'base.html.twig' %}
 
+
+{% block meta %}
+    <meta http-equiv="refresh" content="5;URL='{{path('turn_create')}}'" />  
+     
+{% endblock %}
+
+{% block stylesheets %}
+
+    <style>
+        .row{
+            margin-top: 25px;
+            margin-bottom: 25px;
+        }
+    </style>
+{% endblock %}
 {% block body %}
     <div class="container">
+        
         <div class="row">
-            <div class="alert alert-success text-center" role="alert">
-                Imprimiendo turno ....
+            <div class="col">
+                <img src="{{ asset('bundles/app/images/rgp_logo.png') }}" alt="">
+            </div>
+            <div class="col">
+                <h1 class="display-4">Gracias!!</h1>
+                <p class="lead">Retire el ticket y verifique su turno en pantalla.</p>
             </div>
         </div>
 
 
 
         <div class="row">
-            <div class="card" style="width: 300px">
+            <div class="col-md-3 offset-md-3">
+                <div class="card" style="width: 500px">
                 <div class="card-body">
                     <h3 class="card-title text-center">Turno Atencion</h3>
                     <h4 class="card-title text-center">{{ turn.line.type.description }}</h4>
                     <h4 class="card-subtitle mb-2 text-muted text-center">{{ turn.label }}</h4>
                     <h5 class="card-subtitle mb-2 text-muted text-center">{{ turn.date | date("m/d/Y") }} {{ turn.time | date ("H:i:s")}}</h5>
-                    <p class="card-text">Gracias por su visita, pronto sera atendido.</p>
+                    <p class="card-text text-center">Gracias por su visita, pronto sera atendido.</p>
 
                 </div>
             </div> 
+            </div>
+            
         </div>
-
-        <div class="row">
-            <a href="{{path('turn_create')}}" class="btn btn-info" role="button"> Volver </a>
-        </div>           
-
     </div>
 {% endblock%}

@@ -51,7 +51,7 @@
         }
 
         .lv-plus-subtitle {
-            //position: relative;
+            position: relative;
             top: -1px;
             color: #00000;
             text-align: center;
@@ -62,17 +62,17 @@
         .lv-meta-subtitle {
             font-size: 25px;
         }
+        
+        
+        {% for type in types %}
+        #lv-{{ type.suffix}}:hover {
+            background-color: {{ type.panelColor}};
+            opacity: 1.0;
+            text-decoration: none;
+        }
+        
+        {% endfor %}
 
-        #lv-PAR:hover {
-            background-color: #7EC0EE;
-            opacity: 1.0;
-            text-decoration: none;
-        }
-        #lv-OS:hover {
-            background-color: #6b9311;
-            opacity: 1.0;
-            text-decoration: none;
-        }
 
 
     </style>
@@ -98,7 +98,7 @@
                 <div class="row">
                 {% endif %}           
                 <div class="col-md-4">
-                    <a id="lv-{{type.suffix}}" href="{{ path('turn_new', {'type':'os'} )}}" class="lv-index-panel lv-tile-meta isotope-item" 
+                    <a id="lv-{{type.suffix}}" href="{{ path('turn_new', {'type': type.id } )}}" class="lv-index-panel lv-tile-meta isotope-item" 
                        style="left: 0px; top: 0px; transform: translate3d(0px, 0px, 0px); width: 240px; height: 180px;">
                         <div class="lv-tile-inner" style="width: 265px; height: 224px; transform: scale(0.75);">
                             <div style="margin-bottom: 2px;"></div>
