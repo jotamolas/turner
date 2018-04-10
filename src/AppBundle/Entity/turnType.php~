@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * turnerType
  *
  * @ORM\Table(name="turn_type")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\turnerTypeRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\turnTypeRepository")
  */
 class turnType {
 
@@ -35,16 +35,22 @@ class turnType {
      */
     private $suffix;
 
-
+    
+    /**
+     *
+     * @var boolean
+     * @ORM\Column(name="isEnabled", type="boolean") 
+     */
+    private $isEnabled;
 
     /**
      *
-     * @ORM\OneToMany(targetEntity="turnerRange", mappedBy="type")
+     * @ORM\OneToMany(targetEntity="turnLine", mappedBy="type")
      */
-    private $ranges;
+    private $lines;
 
     public function __construct() {
-        $this->ranges = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->lines = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -78,4 +84,62 @@ class turnType {
         return $this->description;
     }
 
+
+    /**
+     * Set suffix
+     *
+     * @param string $suffix
+     *
+     * @return turnType
+     */
+    public function setSuffix($suffix)
+    {
+        $this->suffix = $suffix;
+
+        return $this;
+    }
+
+    /**
+     * Get suffix
+     *
+     * @return string
+     */
+    public function getSuffix()
+    {
+        return $this->suffix;
+    }
+
+    /**
+     * Add range
+     *
+     * @param \AppBundle\Entity\turnerRange $range
+     *
+     * @return turnType
+     */
+    public function addRange(\AppBundle\Entity\turnerRange $range)
+    {
+        $this->ranges[] = $range;
+
+        return $this;
+    }
+
+    /**
+     * Remove range
+     *
+     * @param \AppBundle\Entity\turnerRange $range
+     */
+    public function removeRange(\AppBundle\Entity\turnerRange $range)
+    {
+        $this->ranges->removeElement($range);
+    }
+
+    /**
+     * Get ranges
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRanges()
+    {
+        return $this->ranges;
+    }
 }

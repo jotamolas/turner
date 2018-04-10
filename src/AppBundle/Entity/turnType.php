@@ -35,7 +35,13 @@ class turnType {
      */
     private $suffix;
 
-
+    
+    /**
+     *
+     * @var boolean
+     * @ORM\Column(name="isEnabled", type="boolean") 
+     */
+    private $isEnabled;
 
     /**
      *
@@ -135,5 +141,63 @@ class turnType {
     public function getRanges()
     {
         return $this->ranges;
+    }
+
+    /**
+     * Set isEnabled
+     *
+     * @param boolean $isEnabled
+     *
+     * @return turnType
+     */
+    public function setIsEnabled($isEnabled)
+    {
+        $this->isEnabled = $isEnabled;
+
+        return $this;
+    }
+
+    /**
+     * Get isEnabled
+     *
+     * @return boolean
+     */
+    public function getIsEnabled()
+    {
+        return $this->isEnabled;
+    }
+
+    /**
+     * Add line
+     *
+     * @param \AppBundle\Entity\turnLine $line
+     *
+     * @return turnType
+     */
+    public function addLine(\AppBundle\Entity\turnLine $line)
+    {
+        $this->lines[] = $line;
+
+        return $this;
+    }
+
+    /**
+     * Remove line
+     *
+     * @param \AppBundle\Entity\turnLine $line
+     */
+    public function removeLine(\AppBundle\Entity\turnLine $line)
+    {
+        $this->lines->removeElement($line);
+    }
+
+    /**
+     * Get lines
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLines()
+    {
+        return $this->lines;
     }
 }

@@ -28,6 +28,11 @@ services:
         resource: '../../src/AppBundle/Controller'
         public: true
         tags: ['controller.service_arguments']
+        
+    print.service:
+        public: true
+        class: AppBundle\Service\Printer
+        arguments: ["@doctrine.orm.entity_manager", "@service_container"]    
 
     # add more services, or override services that need manual wiring
     # AppBundle\Service\ExampleService:

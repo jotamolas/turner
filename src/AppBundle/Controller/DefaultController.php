@@ -1,7 +1,7 @@
 <?php
-
 namespace AppBundle\Controller;
 
+require '/var/www/html/turner/vendor/mike42/escpos-php/autoload.php';
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,6 +12,7 @@ use AppBundle\Entity\turnState;
 use AppBundle\Entity\position;
 use AppBundle\Entity\agent;
 use AppBundle\Entity\agentState;
+
 
 class DefaultController extends Controller {
 
@@ -29,9 +30,12 @@ class DefaultController extends Controller {
      * @Route("/turn/create", name="turn_create")
      */
     public function createTurnAction() {
-        return $this->render('TicketMachine/turn.selection.html.twig');
+        $turnTypes = $this->getDoctrine()->getRepository(turnType::class)->findAll();
+        return $this->render('TicketMachine/turn.selection.html.twig',[
+            'types' => $turnTypes
+        ]);
     }
-
+    
     /**
      * @Route("/turn/new/{type}", name="turn_new")
      */
@@ -128,7 +132,6 @@ class DefaultController extends Controller {
             $em->flush();
 
             dump($turn_line);
-            dump($agent);
         }
 
 
@@ -137,6 +140,19 @@ class DefaultController extends Controller {
                     'turn' => $turn
         ]);
     }
+    
+    
+    /**
+     * 
+     * @Route("/print", name="print")
+     *  
+     */
+    public function printAlgo(){       
+        $this->get('print.service')->printAlgo(new turn());
+    }
+        
+
+
 
     /**
      * @Route("/turn/manage/", name="turn_manage") 
