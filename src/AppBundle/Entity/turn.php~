@@ -63,6 +63,14 @@ class turn
     private $position;
     
     /**
+     * @var agentSession
+     * 
+     * @ORM\ManyToOne(targetEntity="agentSession", inversedBy="turns" )
+     * @ORM\JoinColumn(name="session", referencedColumnName="id",nullable=true) 
+     */
+    private $session;
+    
+    /**
      * @var turnState
      *
      * @ORM\ManyToOne(targetEntity="turnState")
@@ -93,33 +101,6 @@ class turn
     {
         return $this->id;
     }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return turner
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    
-
 
 
     /**
@@ -264,5 +245,51 @@ class turn
     public function getPosition()
     {
         return $this->position;
+    }
+
+    /**
+     * Set number
+     *
+     * @param string $number
+     *
+     * @return turn
+     */
+    public function setNumber($number)
+    {
+        $this->number = $number;
+        $this->setLabel();
+
+        return $this;
+    }
+
+    /**
+     * Get number
+     *
+     * @return string
+     */
+    public function getNumber()
+    {
+        return $this->number;
+    }
+
+    /**
+     * Set label
+     * @return turn
+     */
+    public function setLabel()
+    {
+                
+        $this->label = $this->getLine()->getType()->getSuffix().'-'.$this->getNumber();
+        return $this;
+    }
+
+    /**
+     * Get label
+     *
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->label;
     }
 }

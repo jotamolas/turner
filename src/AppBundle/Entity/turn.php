@@ -63,6 +63,14 @@ class turn
     private $position;
     
     /**
+     * @var agentSession
+     * 
+     * @ORM\ManyToOne(targetEntity="agentSession", inversedBy="turns" )
+     * @ORM\JoinColumn(name="session", referencedColumnName="id",nullable=true) 
+     */
+    private $session;
+    
+    /**
      * @var turnState
      *
      * @ORM\ManyToOne(targetEntity="turnState")
@@ -283,5 +291,29 @@ class turn
     public function getLabel()
     {
         return $this->label;
+    }
+
+    /**
+     * Set session
+     *
+     * @param \AppBundle\Entity\agentSession $session
+     *
+     * @return turn
+     */
+    public function setSession(\AppBundle\Entity\agentSession $session = null)
+    {
+        $this->session = $session;
+
+        return $this;
+    }
+
+    /**
+     * Get session
+     *
+     * @return \AppBundle\Entity\agentSession
+     */
+    public function getSession()
+    {
+        return $this->session;
     }
 }

@@ -33,8 +33,18 @@ services:
         public: true
         class: AppBundle\Service\Printer
         arguments: ["@doctrine.orm.entity_manager", "@service_container"]    
+        
+    session.service:
+        public: true
+        class: AppBundle\Service\Session
+        arguments: ["@doctrine.orm.entity_manager", "@service_container"] 
+    
+    turner.login_success_handler:
+        public: true
+        class: AppBundle\Service\LoginSuccessHandler
+        arguments: ["@router", "@security.authorization_checker", "@doctrine.orm.entity_manager", "@service_container", "@security.token_storage"]
 
-    # add more services, or override services that need manual wiring
-    # AppBundle\Service\ExampleService:
-    #     arguments:
-    #         $someArgument: 'some_value'
+    turner.logout_success_handler:
+        public: true
+        class: AppBundle\Service\LogoutSuccessHandler
+        arguments: ["@router", "@security.authorization_checker", "@doctrine.orm.entity_manager", "@service_container", "@security.token_storage"]

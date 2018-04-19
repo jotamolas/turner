@@ -63,6 +63,9 @@
             font-size: 25px;
         }
         
+        .rgp-title{
+            margin-top: 70px;
+        }
         
         {% for type in types %}
         #lv-{{ type.suffix}}:hover {
@@ -86,7 +89,7 @@
             <div class="col">
                 <img src="{{ asset('bundles/app/images/rgp_logo.png') }}" alt="">
             </div>
-            <div class="col">
+            <div class="col rgp-title">
                 <h1 class="display-4">Bienvenidos</h1>
                 <p class="lead">Por favor elija el tipo de atención requerida para iniciar. Gracias</p>
             </div>

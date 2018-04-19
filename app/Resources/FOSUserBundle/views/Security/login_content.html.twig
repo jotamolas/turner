@@ -1,0 +1,53 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="row">
+    <div class="col-md-5 offset-md-4">
+        {% if error %}
+            <div class=" alert alert-danger">
+                <span class="text-bold">{{ error.messageKey|trans(error.messageData, 'security') }}</span>
+            </div>
+        {% endif %}
+        <div class="login-panel panel panel-default">
+            <!--div class="panel-heading">
+                <h3 class="panel-title" style="text-align: center">Por favor Iniciar Sesión</h3>
+            </div-->  
+
+            <div class="panel-body">
+                <img src="{{ asset('bundles/app/images/rgp_logo_login.png')}}" class="img-responsive">
+                <form action="{{ path("fos_user_security_check") }}" method="post" class="form-horizontal" >
+
+                    <fieldset class="fieldset-login">
+                        {% if csrf_token %}
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                        {% endif %}
+
+
+                        <div class="form-group"><div class="input-group">
+                                <div class="input-group-addon"></div>
+                                <input type="text" id="username" name="_username" class="form-control" value="{{ last_username }}" required="required"
+                                       placeholder="Usuario" >
+                            </div>
+                        </div>
+
+                        <div class="form-group"><div class="input-group">
+                                <div class="input-group-addon"></div>
+                                <input type="password" name="_password" class="form-control" id="password"
+                                       placeholder="Clave" required>
+                            </div>
+                        </div>
+
+
+                        <button type="submit" id="_submit" name="_submit" value="{{ 'Login'|trans }}" 
+                                class="btn btn-lg btn-block"></i> 
+                            Iniciar Sesión</button>
+
+
+
+                    </fieldset>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -4,7 +4,7 @@
 
 {% block meta %}
     <meta http-equiv="refresh" content="5;URL='{{path('turn_create')}}'" />  
-     
+
 {% endblock %}
 
 {% block stylesheets %}
@@ -14,18 +14,32 @@
             margin-top: 25px;
             margin-bottom: 25px;
         }
+
+        .rgp-title{
+            margin-top: 70px;
+        }
     </style>
 {% endblock %}
 {% block body %}
     <div class="container">
-        
+
         <div class="row">
             <div class="col">
                 <img src="{{ asset('bundles/app/images/rgp_logo.png') }}" alt="">
             </div>
-            <div class="col">
+            <div class="col rgp-title">
                 <h1 class="display-4">Gracias!!</h1>
-                <p class="lead">Retire el ticket y verifique su turno en pantalla.</p>
+                {% if print_result.status %}
+                    <div class="alert alert-success" role='alert'>
+                        <p class="lead">Retire el ticket y verifique su turno en pantalla.</p>
+                    </div>
+                {% else %}
+                    <div class="alert alert-danger" role='alert'>
+                        <p class="lead">
+                            <strong>{{ print_result.mesagge }}</strong>
+                        </p>
+                    </div>
+                {% endif %}
             </div>
         </div>
 
@@ -34,17 +48,17 @@
         <div class="row">
             <div class="col-md-3 offset-md-3">
                 <div class="card" style="width: 500px">
-                <div class="card-body">
-                    <h3 class="card-title text-center">Turno Atencion</h3>
-                    <h4 class="card-title text-center">{{ turn.line.type.description }}</h4>
-                    <h4 class="card-subtitle mb-2 text-muted text-center">{{ turn.label }}</h4>
-                    <h5 class="card-subtitle mb-2 text-muted text-center">{{ turn.date | date("m/d/Y") }} {{ turn.time | date ("H:i:s")}}</h5>
-                    <p class="card-text text-center">Gracias por su visita, pronto sera atendido.</p>
+                    <div class="card-body">
+                        <h3 class="card-title text-center">Turno Atencion</h3>
+                        <h4 class="card-title text-center">{{ turn.line.type.description }}</h4>
+                        <h4 class="card-subtitle mb-2 text-muted text-center">{{ turn.label }}</h4>
+                        <h5 class="card-subtitle mb-2 text-muted text-center">{{ turn.date | date("m/d/Y") }} {{ turn.time | date ("H:i:s")}}</h5>
+                        <p class="card-text text-center">Gracias por su visita, pronto sera atendido.</p>
 
-                </div>
-            </div> 
+                    </div>
+                </div> 
             </div>
-            
+
         </div>
     </div>
 {% endblock%}

@@ -1,0 +1,31 @@
+{% extends "sdasdlayout.html.twig" %}
+
+{% block stylesheets %}
+    <style type="text/css">
+
+        body{
+            background-color: #FDEEA6 !important;
+        }
+        .img-responsive{
+            margin: 2rem;
+        }
+        .fieldset-login{
+            margin: 3rem;
+        }
+
+        .panel-body{
+            box-shadow: 0 0 30px black;
+            border-radius: 10px;
+        }
+
+        #_submit{
+            background-color: #0C2432;
+            color: #fff;
+        }
+
+
+    </style>
+{% endblock %}
+{% block fos_user_content %}
+    {{ include('login_content.html.twig') }}
+{% endblock fos_user_content %}

@@ -3,8 +3,6 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-
 
 /**
  * position
@@ -51,19 +49,9 @@ class position {
      * 
      */
     private $state;
-    
-    /**
-     *
-     * @ORM\OneToMany(targetEntity="agentSession", mappedBy="position")
-     * 
-     */
-    private $sessions;
-    
-    
 
     public function __construct() {
-        $this->turns = new \ArrayCollection();
-        $this->sessions = new ArrayCollection();
+        $this->turns = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -150,28 +138,4 @@ class position {
         return $this->state;
     }
 
-
-    /**
-     * Set isEnabled
-     *
-     * @param boolean $isEnabled
-     *
-     * @return position
-     */
-    public function setIsEnabled($isEnabled)
-    {
-        $this->isEnabled = $isEnabled;
-
-        return $this;
-    }
-
-    /**
-     * Get isEnabled
-     *
-     * @return boolean
-     */
-    public function getIsEnabled()
-    {
-        return $this->isEnabled;
-    }
 }

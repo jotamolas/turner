@@ -3,6 +3,9 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\User as BaseUser;
+use Doctrine\Common\Collections\ArrayCollection;
+
 
 /**
  * user
@@ -10,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="agent")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\agentRepository")
  */
-class agent
+class agent extends BaseUser
 {
     /**
      * @var int
@@ -19,28 +22,21 @@ class agent
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255,nullable=true))
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="lastname", type="string", length=255)
+     * @ORM\Column(name="lastname", type="string", length=255,nullable=true))
      */
     private $lastname;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="username", type="string", length=255)
-     */
-    private $username;
 
     
     /**
@@ -50,6 +46,14 @@ class agent
      * 
      */
     private $state;
+    
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="agentSession", mappedBy="agent")
+     * 
+     */
+    private $sessions;
+    
     /**
      * 
      * @ORM\OneToMany(targetEntity="turn", mappedBy="agent")
@@ -57,8 +61,22 @@ class agent
      */
     private $turns;
     
+    
+    /**
+     *
+     * @var agentSession 
+     * @ORM\ManyToOne(targetEntity="agentSession")
+     * @ORM\JoinColumn(name="active_session", referencedColumnName="id",nullable=true)
+     * 
+     */
+    private $activeSession;
+    
+
+    
     public function __construct() {
-        $this->turns = new \Doctrine\Common\Collections\ArrayCollection();
+        parent::__construct();
+        $this->turns = new ArrayCollection();
+        $this->sessions = new ArrayCollection();
     }
 
     /**
@@ -119,29 +137,7 @@ class agent
         return $this->lastname;
     }
 
-    /**
-     * Set username
-     *
-     * @param string $username
-     *
-     * @return user
-     */
-    public function setUsername($username)
-    {
-        $this->username = $username;
 
-        return $this;
-    }
-
-    /**
-     * Get username
-     *
-     * @return string
-     */
-    public function getUsername()
-    {
-        return $this->username;
-    }
 
     /**
      * Add turn
@@ -199,5 +195,63 @@ class agent
     public function getState()
     {
         return $this->state;
+    }
+
+    /**
+     * Add session
+     *
+     * @param \AppBundle\Entity\agentSession $session
+     *
+     * @return agent
+     */
+    public function addSession(\AppBundle\Entity\agentSession $session)
+    {
+        $this->sessions[] = $session;
+
+        return $this;
+    }
+
+    /**
+     * Remove session
+     *
+     * @param \AppBundle\Entity\agentSession $session
+     */
+    public function removeSession(\AppBundle\Entity\agentSession $session)
+    {
+        $this->sessions->removeElement($session);
+    }
+
+    /**
+     * Get sessions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSessions()
+    {
+        return $this->sessions;
+    }
+
+    /**
+     * Set activeSession
+     *
+     * @param \AppBundle\Entity\agentSession $activeSession
+     *
+     * @return agent
+     */
+    public function setActiveSession(\AppBundle\Entity\agentSession $activeSession = null)
+    {
+        $this->activeSession = $activeSession;
+
+        return $this;
+    }
+
+    /**
+     * Get activeSession
+     *
+     * @return \AppBundle\Entity\agentSession
+     */
+    public function getActiveSession()
+    {
+        return $this->activeSession;
     }
 }

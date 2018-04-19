@@ -10,15 +10,29 @@ namespace AppBundle\Repository;
  */
 class turnRepository extends \Doctrine\ORM\EntityRepository {
 
-        public function findToWaitingRoom(\DateTime $date) {
+    public function findToWaitingRoom(\DateTime $date) {
 
         $qb = $this->createQueryBuilder('t');
         $qb
                 ->leftJoin('t.line', 'l')
                 ->leftJoin('t.state', 's')
-                ->where($qb->expr()->in('s.id', [1,2]))
+                ->where($qb->expr()->in('s.id', [1, 2]))
                 ->andWhere($qb->expr()->eq('t.date', $date->format("'Y-m-d'")))
-          ;
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findToManageTurn(\DateTime $date, $maxResults) {
+        $qb = $this->createQueryBuilder('t');
+        $qb
+                ->leftJoin('t.line', 'l')
+                ->leftJoin('t.state', 's')
+                ->where($qb->expr()->in('s.id', [1, 2, 5]))
+                ->andWhere($qb->expr()->eq('t.date', $date->format("'Y-m-d'")))
+                ->orderBy('t.id')
+                ->setMaxResults($maxResults)
+        ;
 
         return $qb->getQuery()->getResult();
     }

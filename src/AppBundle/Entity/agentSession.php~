@@ -1,0 +1,113 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * agentSession
+ *
+ * @ORM\Table(name="agent_session")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\agentSessionRepository")
+ */
+class agentSession
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var agent
+     * @ORM\ManyToOne(targetEntity="agent")
+     * @ORM\JoinColumn(name="agent", referencedColumnName="id",nullable=true)
+     * 
+     */
+    private $agent;
+
+    /**
+     * @var position
+     * @ORM\ManyToOne(targetEntity="position")
+     * @ORM\JoinColumn(name="position", referencedColumnName="id",nullable=true)
+     * 
+     */
+    private $position;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="login", type="datetime")
+     */
+    private $login;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="logout", type="datetime")
+     */
+    private $logout;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set login
+     *
+     * @param \DateTime $login
+     *
+     * @return agentSession
+     */
+    public function setLogin($login)
+    {
+        $this->login = $login;
+
+        return $this;
+    }
+
+    /**
+     * Get login
+     *
+     * @return \DateTime
+     */
+    public function getLogin()
+    {
+        return $this->login;
+    }
+
+    /**
+     * Set logout
+     *
+     * @param \DateTime $logout
+     *
+     * @return agentSession
+     */
+    public function setLogout($logout)
+    {
+        $this->logout = $logout;
+
+        return $this;
+    }
+
+    /**
+     * Get logout
+     *
+     * @return \DateTime
+     */
+    public function getLogout()
+    {
+        return $this->logout;
+    }
+}
+

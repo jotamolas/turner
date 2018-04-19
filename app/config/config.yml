@@ -19,12 +19,15 @@ framework:
     csrf_protection: ~
     validation: { enable_annotations: true }
     #serializer: { enable_annotations: true }
+    templating:
+        engines: ['twig']
     default_locale: '%locale%'
     trusted_hosts: ~
     session:
         # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
         handler_id: session.handler.native_file
         save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+        name: TURNERSID
     fragments: ~
     http_method_override: true
     assets: ~
@@ -36,6 +39,8 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     form_themes: ['bootstrap_4_layout.html.twig']
+    globals:
+        session_service: "@session.service"
 
 # Doctrine Configuration
 doctrine:
@@ -66,3 +71,14 @@ swiftmailer:
     username: '%mailer_user%'
     password: '%mailer_password%'
     spool: { type: memory }
+
+fos_user:
+    db_driver: orm 
+    firewall_name: main
+    user_class: AppBundle\Entity\agent
+    registration:
+        form:
+            type: AppBundle\Form\RegistrationType
+    from_email:
+        address: jorge@blungrey.com
+        sender_name: turner.rgp.nvocentroshopping 
