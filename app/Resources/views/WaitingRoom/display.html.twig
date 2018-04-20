@@ -6,16 +6,42 @@
     <meta http-equiv="refresh" content="5"/>
 {% endblock %}
 
+{% block stylesheets %}
+
+    <style type="text/css">
+        body{
+            background: #fff url({{ asset('bundles/app/images/bg-site.png') }});
+
+        }
+        .row{
+            background: #fff;
+            margin-bottom: 20px;
+        }
+        .img-container{
+            position:absolute;
+        }
+        .img-responsive{
+            margin: auto;
+            display: block;
+        }
+
+    </style>
+{% endblock %}
 
 {% block body %}
     <div class="container-fluid">
-
         <div class="row">
+            <div class="col-lg-4 offset-lg-4">
+                <img src="{{ asset('bundles/app/images/rgp_logo_offset.png')}}" class="img-responsive">
+            </div>
+        </div>
+        
+         <div class="row">
             {% for turn in turns %}
 
-                {% if turn.state.id == 2 %}
+                {% if turn.state.id == 5 %}
                     <div class="alert alert-success">
-                        <h1> <strong>Atendiendo a {{ turn.label }}</strong> en posición {{turn.position.name}} </a>.
+                        <h1> <strong>Llamando {{ turn.label }}</strong> en posición {{turn.position.name}} </a>.
                     </div>
                 {% endif %}
 

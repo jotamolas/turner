@@ -5,11 +5,29 @@
 {% block stylesheets %}
 
     <style>
+        body{
+            background: #fff url({{ asset('bundles/app/images/bg-site.png') }});
+
+        }
         .row{
+            background: #fff;
             margin-top: 25px;
             margin-bottom: 25px;
         }
 
+        .dashboard-header{
+            margin-bottom: 50px;
+            margin-top: 25px;
+            padding: 20px;
+            border: solid 2px #b3bac2;
+            border-radius: 10px;        
+        }
+
+        .position-selection{
+            padding: 20px;
+            border: solid 2px #b3bac2;
+            border-radius: 10px;
+        }
         .lv-index-panel{
             display: block;
             width: 275px;
@@ -78,10 +96,10 @@
 
 
 {% block body %}
-    
+
     <div class="container">
 
-        <div class="row">
+        <div class="row dashboard-header">
             <div class="col">
                 <h1 class="display-4">Hola {{app.user.name}} </h1>
                 <p class="lead">Seleccione una posición para iniciar sesión. Gracias</p>
@@ -91,7 +109,7 @@
 
         {% for position in positions%}
             {% if loop.index0 is divisibleby(3) %}
-                <div class="row">
+                <div class="row position-selection">
                 {% endif %} 
 
                 {% if position.isEnabled %}

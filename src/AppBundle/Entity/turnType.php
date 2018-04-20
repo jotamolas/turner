@@ -116,40 +116,6 @@ class turnType {
         return $this->suffix;
     }
 
-    /**
-     * Add range
-     *
-     * @param \AppBundle\Entity\turnerRange $range
-     *
-     * @return turnType
-     */
-    public function addRange(\AppBundle\Entity\turnerRange $range)
-    {
-        $this->ranges[] = $range;
-
-        return $this;
-    }
-
-    /**
-     * Remove range
-     *
-     * @param \AppBundle\Entity\turnerRange $range
-     */
-    public function removeRange(\AppBundle\Entity\turnerRange $range)
-    {
-        $this->ranges->removeElement($range);
-    }
-
-    /**
-     * Get ranges
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getRanges()
-    {
-        return $this->ranges;
-    }
-
 
     /**
      * Add line

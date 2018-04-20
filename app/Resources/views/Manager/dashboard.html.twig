@@ -5,7 +5,7 @@
     <style type="text/css">
         body{
             background: #fff url({{ asset('bundles/app/images/bg-site.png') }});
-                
+
         }
         .row{
             background: #fff;
@@ -71,7 +71,13 @@
                 </thead>
                 <tbody>
                     {% for turn in turns %}
-                        <tr>
+                        {% if (turn.agent and turn.agent != app.user) %}
+                            <tr class="table-danger">
+                            {% elseif turn.agent != app.user  %}
+                            <tr class="table-success">
+                            {% else %}
+                            <tr>
+                            {% endif %}    
                             <td>{{ turn.date | date('d-m-Y' )}}</td>
                             <td>{{ turn.time | date('H:i') }}</td>
                             <td>{{ turn.label}}</td>
@@ -80,21 +86,24 @@
                             <td>{{ turn.state.description | upper | trans }}</td>
                             <td class="text-center">
 
-                                {% if turn.state.description == 'created' %}
-                                    <a class="btn btn-dark btn-sm" href="{{ path('turn_manage_call',{'turn': turn.id, 'agent': session.agent.id})}}" data-toggle="tooltip" data-placement="top" title="Llamar">
-                                        <i class="fas fa-phone-volume"></i>
-                                    </a>
-                                {% endif %}
-                                {% if turn.state.description == 'calling' %}
-                                    <a class="btn btn-dark btn-sm" href="{{ path('turn_manage_assign', {'turn': turn.id, 'agent': session.agent.id}) }}" data-toggle="tooltip" data-placement="top" title="Tomar">
-                                        <i class="fas fa-hand-holding"></i>
-                                    </a>
-                                {% endif %}
+                                {% if (turn.agent == app.user or turn.agent == false) %}
 
-                                {% if (turn.state.description == 'assigned' or  turn.state.description == 'calling')%}
-                                    <a class="btn btn-dark btn-sm" href="{{ path('turn_manage_end', {'turn': turn.id}) }}" data-toggle="tooltip" data-placement="top" title="Finalizar">
-                                        <i class="fas fa-eject"></i>
-                                    </a>
+                                    {% if turn.state.description == 'created' %}
+                                        <a class="btn btn-dark btn-sm" href="{{ path('turn_manage_call',{'turn': turn.id, 'agent': app.user.id})}}" data-toggle="tooltip" data-placement="top" title="Llamar">
+                                            <i class="fas fa-phone-volume"></i>
+                                        </a>
+                                    {% endif %}
+                                    {% if turn.state.description == 'calling' %}
+                                        <a class="btn btn-dark btn-sm" href="{{ path('turn_manage_assign', {'turn': turn.id, 'agent': app.user.id}) }}" data-toggle="tooltip" data-placement="top" title="Tomar">
+                                            <i class="fas fa-hand-holding"></i>
+                                        </a>
+                                    {% endif %}
+
+                                    {% if (turn.state.description == 'assigned' or  turn.state.description == 'calling')%}
+                                        <a class="btn btn-dark btn-sm" href="{{ path('turn_manage_end', {'turn': turn.id}) }}" data-toggle="tooltip" data-placement="top" title="Finalizar">
+                                            <i class="fas fa-eject"></i>
+                                        </a>
+                                    {% endif %}
                                 {% endif %}
                             </td>
                         </tr>
@@ -112,7 +121,7 @@
             $('[data-toggle="tooltip"]').tooltip();
         });
     </script>  
-    
+
 {% endblock%}
 
 

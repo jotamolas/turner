@@ -16,7 +16,7 @@ class turnRepository extends \Doctrine\ORM\EntityRepository {
         $qb
                 ->leftJoin('t.line', 'l')
                 ->leftJoin('t.state', 's')
-                ->where($qb->expr()->in('s.id', [1, 2]))
+                ->where($qb->expr()->in('s.id', [1,2,5]))
                 ->andWhere($qb->expr()->eq('t.date', $date->format("'Y-m-d'")))
         ;
 

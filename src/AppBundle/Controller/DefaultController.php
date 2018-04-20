@@ -160,7 +160,7 @@ class DefaultController extends Controller {
 
             $turns = $this->getDoctrine()->getRepository(turn::class)->findToManageTurn(new \DateTime, 10);
 
-            dump($agent->getActiveSession());
+            //dump($agent->getActiveSession());
 
             return $this->render('Manager/dashboard.html.twig', [
                         'turns' => $turns,
@@ -202,10 +202,28 @@ class DefaultController extends Controller {
                 );
             }
         } else {
-            $this->addFlash(
-                    'warning', 'No puede asignar el Turno cuando su estado es Ocupado, por favor libere el turno tomado'
-            );
+
+            if ($turn->getState()->getDescription() == 'calling' && $turn->getAgent() == $agent) {
+                $turn->setAgent($agent)
+                        ->setPosition($agent->getActiveSession()->getPosition())
+                        ->setSession($agent->getActiveSession())
+                        ->setState($this->getDoctrine()->getRepository(turnState::class)->findOneBy(['description' => 'assigned']))
+                ;
+                $agent->setState($this->getDoctrine()->getRepository(agentState::class)->findOneBy(['description' => 'busy']));
+
+                $em = $this->getDoctrine()->getManager();
+                $em->flush();
+                $this->addFlash(
+                        'info', 'El Turno fue asignado'
+                );
+            } else {
+
+                $this->addFlash(
+                        'warning', 'No puede tomar el Turno cuando su estado es Ocupado o cuando usted No llamo al Turno'
+                );
+            }
         }
+        
         return $this->redirectToRoute('turn_manage', [
                     'agent' => $agent->getId()
         ]);
@@ -222,6 +240,7 @@ class DefaultController extends Controller {
 
                 $turn->setState($this->getDoctrine()->getRepository(turnState::class)->find(3))
                         ->getAgent()->setState($this->getDoctrine()->getRepository(agentState::class)->find(1));
+
 
                 $em = $this->getDoctrine()->getManager();
                 $em->flush();
@@ -253,10 +272,12 @@ class DefaultController extends Controller {
             if ($turn->getState()->getDescription() == 'created') {
 
                 $turn
+                        ->setAgent($agent)
                         ->setPosition($agent->getActiveSession()->getPosition())
+                        ->setSession($agent->getActiveSession())
                         ->setState($this->getDoctrine()->getRepository(turnState::class)->findOneBy(['description' => 'calling']))
                 ;
-
+                $agent->setState($this->getDoctrine()->getRepository(agentState::class)->findOneBy(['description' => 'busy']));
                 $em = $this->getDoctrine()->getManager();
                 $em->flush();
                 $this->addFlash(
@@ -272,7 +293,7 @@ class DefaultController extends Controller {
                     'warning', 'No puede llamar a un Turno cuando su estado es Ocupado, por favor libere el turno que ya ha tomado'
             );
         }
-        
+
         return $this->redirectToRoute('turn_manage', [
                     'agent' => $agent->getId()
         ]);

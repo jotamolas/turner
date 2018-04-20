@@ -3,10 +3,36 @@
 {% block stylesheets %}
     <style type="text/css">
 
+        body{
+            background: #fff url({{ asset('bundles/app/images/bg-site.png') }});
+        }
 
+        .row{
+            background: #fff;
+        }
+        
+        .img-responsive{
+            margin: auto;
+            display: block;
+        }
+        .panel-body{
+            background: #fff;
+            box-shadow: 0 0 30px black;
+            border-radius: 10px;
+            position:absolute;
+        }
+
+        .fieldset-login{
+            margin: 3rem;
+        }
+
+        .panel-body{
+            margin-top: 150px;
+            padding: 30px;
+        }
 
     </style>
-  
+
 {% endblock %}
 {% block fos_user_content %}
     {{ include('@FOSUser/Security/login_content.html.twig') }}
