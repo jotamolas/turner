@@ -168,4 +168,9 @@ class agentSession
     {
         return $this->position;
     }
+    
+    
+    public function getTurns(){
+        return $this->turns;
+    }
 }

@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+
 
 /**
  * position
@@ -49,9 +51,37 @@ class position {
      * 
      */
     private $state;
+    
+    
+    
+    /**
+     * @var turn
+     * @ORM\ManyToOne(targetEntity="turn")
+     * @ORM\JoinColumn(name="activeTurn", referencedColumnName="id",nullable=true)
+     * 
+     */
+    private $activeTurn;
+    
+    /**
+     * @var agent
+     * @ORM\ManyToOne(targetEntity="agent")
+     * @ORM\JoinColumn(name="activeAgent", referencedColumnName="id",nullable=true)
+     * 
+     */
+    private $activeAgent;
+    
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="agentSession", mappedBy="position")
+     * 
+     */
+    private $sessions;
+    
+    
 
     public function __construct() {
-        $this->turns = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->turns = new \ArrayCollection();
+        $this->sessions = new ArrayCollection();
     }
 
     /**
@@ -138,4 +168,28 @@ class position {
         return $this->state;
     }
 
+
+    /**
+     * Set isEnabled
+     *
+     * @param boolean $isEnabled
+     *
+     * @return position
+     */
+    public function setIsEnabled($isEnabled)
+    {
+        $this->isEnabled = $isEnabled;
+
+        return $this;
+    }
+
+    /**
+     * Get isEnabled
+     *
+     * @return boolean
+     */
+    public function getIsEnabled()
+    {
+        return $this->isEnabled;
+    }
 }

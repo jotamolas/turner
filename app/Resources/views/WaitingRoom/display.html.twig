@@ -25,6 +25,17 @@
             display: block;
         }
 
+        .turn-label{
+            font-size: 7rem;
+        }
+        .box-label{
+            font-size: 4rem;
+            font-weight: bolder;
+        }
+        .box{
+            height: 300px;
+        }
+
     </style>
 {% endblock %}
 
@@ -32,44 +43,56 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-4 offset-lg-4">
-                <img src="{{ asset('bundles/app/images/rgp_logo_offset.png')}}" class="img-responsive">
+                <img src="{{ asset('bundles/app/images/rgp_logo_offset.png')}}" class="img-responsive">                
             </div>
         </div>
-        
-         <div class="row">
-            {% for turn in turns %}
 
-                {% if turn.state.id == 5 %}
-                    <div class="alert alert-success">
-                        <h1> <strong>Llamando {{ turn.label }}</strong> en posición {{turn.position.name}} </a>.
+
+
+        {% for position in positions%}
+            {% if loop.index0 is divisibleby(4) %}
+                <div class="row">
+                {% endif %} 
+
+                {% if position.isEnabled %}
+                    <div class="col-3">
+                        <div class="box text-center border" data-state="{% if position.activeTurn %}{{ position.activeTurn.state.description }}{% endif %}">
+                            <h1 class="turn-label">{% if position.activeTurn %}{{ position.activeTurn.label }} {% else %} - {% endif %} </h1>
+                            <h2 class="box-label">{{ position.name}}</h2>
+                            <h3>{% if position.activeTurn %} {{ position.activeTurn.state.description|capitalize }} {% else %} - {% endif %}</h3>
+                        </div>
                     </div>
                 {% endif %}
+                {% if loop.index is divisibleby(4) or loop.last %}
+                </div>
+            {% endif %}
+        {% endfor %}  
 
-            {% endfor %}    
-        </div>
         <div class="row">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Turno</th>
-                        <th>Posicion</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for turn in turns %}
 
-                        {% if turn.state.id == 2 %}
-                            <tr class="table-info">
-                            {% else %}
-                            <tr>
-                            {% endif %}
-                            <td>{{ turn.label}}</td>                        
-                            <td>{% if turn.position is null %} - {% else %} {{turn.position.name}} {% endif %}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
         </div>
 
     </div>
+
+
+{% endblock%}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.box').each(function () {
+                if ($(this).data('state') == 'calling') {
+                    $.playSound('{{ asset('bundles/app/sounds/call.mp3')}}');
+                    $(this).animate({
+                       backgroundColor: '#baffc9',                       
+                    });
+                    $(this).effect("bounce", "slow");
+                }else if($(this).data('state') == 'assigned'){
+                    $(this).animate({
+                       backgroundColor: '#ffb3ba',                       
+                    });
+                }
+            });
+        });
+    </script>
 {% endblock%}

@@ -49,7 +49,7 @@ class Session {
         /* pongo la posicion en ocupada */
         $position->setState($this->em->getRepository(\AppBundle\Entity\positionState::class)->findOneByDescription('busy'));
 
-        /* marco la session como sesion activa en el agente  y marco al agente como idle*/
+        /* marco la session como sesion activa en el agente  y marco al agente como idle */
         $agent->setState($this->em->getRepository(\AppBundle\Entity\agentState::class)->findOneByDescription('idle'));
         $agent->setActiveSession($session);
 
@@ -68,24 +68,39 @@ class Session {
 
         $session->setLogout(new \DateTime('now'));
         $session->getPosition()->setState($this->em->getRepository(\AppBundle\Entity\positionState::class)->findOneByDescription('idle'));
-        
-        $session->getAgent()->setActiveSession(NULL);        
+        $session->getAgent()->setActiveSession(NULL);
+
+        foreach ($session->getTurns() as $turn) {
+            
+            switch ($turn->getState()->getDescription()) {
+                case "assigned":
+                    $turn->setState($this->em->getRepository(\AppBundle\Entity\turnState::class)->findOneByDescription('attended'));
+                    break;
+                case "calling":
+                    $turn->setState($this->em->getRepository(\AppBundle\Entity\turnState::class)->findOneByDescription('created'));
+                    $turn->setAgent(null)->setSession(null)->setPosition(null);
+                    break;
+                default:
+                    break;
+            }
+            
+        }
+
         $this->em->flush();
-        
+
         return $session;
     }
-    
+
     /**
      * 
      * @param agentSession $session
      */
-    public function getSessionTime(agentSession $session){
-        
-        
+    public function getSessionTime(agentSession $session) {
+
+
         $time = $session->getLogin();
         echo $timestamp = $time->format('H:i:s');
         dump($time->format('H:i:s'));
-        
     }
 
 }

@@ -49,11 +49,11 @@
             <div class="col-md-3 offset-md-3">
                 <div class="card" style="width: 500px">
                     <div class="card-body">
-                        <h3 class="card-title text-center">Turno Atencion</h3>
+                        <h3 class="card-title text-center">Turno Atención</h3>
                         <h4 class="card-title text-center">{{ turn.line.type.description }}</h4>
                         <h4 class="card-subtitle mb-2 text-muted text-center">{{ turn.label }}</h4>
-                        <h5 class="card-subtitle mb-2 text-muted text-center">{{ turn.date | date("m/d/Y") }} {{ turn.time | date ("H:i:s")}}</h5>
-                        <p class="card-text text-center">Gracias por su visita, pronto sera atendido.</p>
+                        <h5 class="card-subtitle mb-2 text-muted text-center">{{ turn.date | date("d/m/Y") }} {{ turn.time | date ("H:i:s")}}</h5>
+                        <p class="card-text text-center">Gracias por su visita, pronto será atendido.</p>
 
                     </div>
                 </div> 

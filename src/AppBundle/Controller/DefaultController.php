@@ -189,7 +189,9 @@ class DefaultController extends Controller {
                         ->setSession($agent->getActiveSession())
                         ->setState($this->getDoctrine()->getRepository(turnState::class)->findOneBy(['description' => 'assigned']))
                 ;
-                $agent->setState($this->getDoctrine()->getRepository(agentState::class)->findOneBy(['description' => 'busy']));
+                $agent->setState($this->getDoctrine()->getRepository(agentState::class)->findOneBy(['description' => 'busy']))
+                        ->getActiveSession()->getPosition()->setActiveAgent($agent)
+                        ->setActiveTurn($turn);
 
                 $em = $this->getDoctrine()->getManager();
                 $em->flush();
@@ -209,7 +211,10 @@ class DefaultController extends Controller {
                         ->setSession($agent->getActiveSession())
                         ->setState($this->getDoctrine()->getRepository(turnState::class)->findOneBy(['description' => 'assigned']))
                 ;
-                $agent->setState($this->getDoctrine()->getRepository(agentState::class)->findOneBy(['description' => 'busy']));
+                $agent->setState($this->getDoctrine()->getRepository(agentState::class)->findOneBy(['description' => 'busy']))
+                        ->getActiveSession()->getPosition()->setActiveAgent($agent)
+                        ->setActiveTurn($turn);
+                ;
 
                 $em = $this->getDoctrine()->getManager();
                 $em->flush();
@@ -223,7 +228,7 @@ class DefaultController extends Controller {
                 );
             }
         }
-        
+
         return $this->redirectToRoute('turn_manage', [
                     'agent' => $agent->getId()
         ]);
@@ -239,8 +244,9 @@ class DefaultController extends Controller {
             if ($turn->getAgent() == $this->getUser()) {
 
                 $turn->setState($this->getDoctrine()->getRepository(turnState::class)->find(3))
-                        ->getAgent()->setState($this->getDoctrine()->getRepository(agentState::class)->find(1));
-
+                        ->getAgent()->setState($this->getDoctrine()->getRepository(agentState::class)->find(1))
+                        ;
+                $turn->getPosition()->setActiveAgent(NULL)->setActiveTurn(NULL);
 
                 $em = $this->getDoctrine()->getManager();
                 $em->flush();
@@ -277,7 +283,9 @@ class DefaultController extends Controller {
                         ->setSession($agent->getActiveSession())
                         ->setState($this->getDoctrine()->getRepository(turnState::class)->findOneBy(['description' => 'calling']))
                 ;
-                $agent->setState($this->getDoctrine()->getRepository(agentState::class)->findOneBy(['description' => 'busy']));
+                $agent->setState($this->getDoctrine()->getRepository(agentState::class)->findOneBy(['description' => 'busy']))
+                        ->getActiveSession()->getPosition()->setActiveAgent($agent)
+                        ->setActiveTurn($turn);
                 $em = $this->getDoctrine()->getManager();
                 $em->flush();
                 $this->addFlash(
@@ -305,9 +313,12 @@ class DefaultController extends Controller {
     public function displayTurns() {
 
         $turns = $this->getDoctrine()->getRepository(turn::class)->findToWaitingRoom(new \DateTime());
-
+        $positions = $this->getDoctrine()->getRepository(position::class)->findAll();
+        dump($positions);
+        dump($turns);
         return $this->render('WaitingRoom/display.html.twig', [
                     'turns' => $turns,
+                    'positions' => $positions
         ]);
     }
 

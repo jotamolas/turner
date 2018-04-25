@@ -52,6 +52,24 @@ class position {
      */
     private $state;
     
+    
+    
+    /**
+     * @var turn
+     * @ORM\ManyToOne(targetEntity="turn")
+     * @ORM\JoinColumn(name="activeTurn", referencedColumnName="id",nullable=true)
+     * 
+     */
+    private $activeTurn;
+    
+    /**
+     * @var agent
+     * @ORM\ManyToOne(targetEntity="agent")
+     * @ORM\JoinColumn(name="activeAgent", referencedColumnName="id",nullable=true)
+     * 
+     */
+    private $activeAgent;
+    
     /**
      *
      * @ORM\OneToMany(targetEntity="agentSession", mappedBy="position")
@@ -173,5 +191,87 @@ class position {
     public function getIsEnabled()
     {
         return $this->isEnabled;
+    }
+
+    /**
+     * Set activeTurn
+     *
+     * @param \AppBundle\Entity\turn $activeTurn
+     *
+     * @return position
+     */
+    public function setActiveTurn(\AppBundle\Entity\turn $activeTurn = null)
+    {
+        $this->activeTurn = $activeTurn;
+
+        return $this;
+    }
+
+    /**
+     * Get activeTurn
+     *
+     * @return \AppBundle\Entity\turn
+     */
+    public function getActiveTurn()
+    {
+        return $this->activeTurn;
+    }
+
+    /**
+     * Set activeAgent
+     *
+     * @param \AppBundle\Entity\agent $activeAgent
+     *
+     * @return position
+     */
+    public function setActiveAgent(\AppBundle\Entity\agent $activeAgent = null)
+    {
+        $this->activeAgent = $activeAgent;
+
+        return $this;
+    }
+
+    /**
+     * Get activeAgent
+     *
+     * @return \AppBundle\Entity\agent
+     */
+    public function getActiveAgent()
+    {
+        return $this->activeAgent;
+    }
+
+    /**
+     * Add session
+     *
+     * @param \AppBundle\Entity\agentSession $session
+     *
+     * @return position
+     */
+    public function addSession(\AppBundle\Entity\agentSession $session)
+    {
+        $this->sessions[] = $session;
+
+        return $this;
+    }
+
+    /**
+     * Remove session
+     *
+     * @param \AppBundle\Entity\agentSession $session
+     */
+    public function removeSession(\AppBundle\Entity\agentSession $session)
+    {
+        $this->sessions->removeElement($session);
+    }
+
+    /**
+     * Get sessions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSessions()
+    {
+        return $this->sessions;
     }
 }
