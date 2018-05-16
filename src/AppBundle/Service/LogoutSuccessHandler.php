@@ -29,9 +29,11 @@ class LogoutSuccessHandler implements LogoutSuccessHandlerInterface {
     }
 
     public function onLogoutSuccess(Request $request) {
+        
         /**
          * en el logout cierro la sesion iniciada y redirijo al usuario al login
          */
+        
         $agent = $this->token_storage->getToken()->getUser(); 
         $this->container->get('session.service')->close($agent->getActiveSession());        
         

@@ -38,7 +38,14 @@ services:
         public: true
         class: AppBundle\Service\Session
         arguments: ["@doctrine.orm.entity_manager", "@service_container"] 
-    
+        
+        
+    position.service:
+        public: true
+        class: AppBundle\Service\PositionService
+        arguments: ["@doctrine.orm.entity_manager", "@service_container"]
+        
+        
     turner.login_success_handler:
         public: true
         class: AppBundle\Service\LoginSuccessHandler

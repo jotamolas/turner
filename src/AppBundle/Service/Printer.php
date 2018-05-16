@@ -70,7 +70,7 @@ class Printer {
         $printer->setJustification(\Mike42\Escpos\Printer::JUSTIFY_CENTER);
         $printer->graphics($logo);
         $printer->feed();
-        $printer->text("Sucursal Nuevo Centro Shopping\n");
+        $printer->text($this->container->getParameter('sucursal')."\n");
         $printer->feed();
         $printer->text("Revise el siguiente turno en pantalla. Gracias\n");
         $printer->feed(2);
@@ -89,7 +89,7 @@ class Printer {
         $printer->close();
 
         return [
-            'status' => TRUE,
+            'status' => TRUE            
         ];
     }
 

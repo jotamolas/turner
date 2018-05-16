@@ -11,10 +11,9 @@
     <style type="text/css">
         body{
             background: #fff url({{ asset('bundles/app/images/bg-site.png') }});
-
         }
         .row{
-            background: #fff;
+            /*background: #fff;*/
             margin-bottom: 20px;
         }
         .img-container{
@@ -33,7 +32,11 @@
             font-weight: bolder;
         }
         .box{
+            background: #fff;
             height: 300px;
+        }
+        .rgp-header{
+            background: #fff;
         }
 
     </style>
@@ -41,7 +44,7 @@
 
 {% block body %}
     <div class="container-fluid">
-        <div class="row">
+        <div class="row rgp-header">
             <div class="col-lg-4 offset-lg-4">
                 <img src="{{ asset('bundles/app/images/rgp_logo_offset.png')}}" class="img-responsive">                
             </div>
@@ -53,7 +56,6 @@
             {% if loop.index0 is divisibleby(4) %}
                 <div class="row">
                 {% endif %} 
-
                 {% if position.isEnabled %}
                     <div class="col-3">
                         <div class="box text-center border" data-state="{% if position.activeTurn %}{{ position.activeTurn.state.description }}{% endif %}">

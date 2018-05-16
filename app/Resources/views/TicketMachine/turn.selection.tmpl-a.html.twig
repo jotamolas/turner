@@ -1,0 +1,98 @@
+
+{% extends 'base.html.twig' %}
+
+
+{% block stylesheets %}
+
+    <style type="text/css">
+        body{
+            background: #fff url({{ asset('bundles/app/images/bg-site.png') }});
+
+        }
+         .rgp-header{
+            background: #fff;
+        }
+        
+        .rgp-title{
+            margin-top: 70px;
+        }
+
+        .row{           
+            margin-bottom: 20px;
+        }
+        .img-container{
+            position:absolute;
+        }
+        .img-responsive{
+            margin: auto;
+            display: block;
+        }
+
+        .turn-type-suffix{
+            font-size: 7rem;
+        }
+        .turn-type-description{
+            font-size: 1.7rem;
+            font-weight: bolder;
+        }
+        .box{
+            background: #fff;
+            height: 250px;
+        }
+        
+        .box-link {
+          color: #1b1e21c9 !important;
+          text-decoration: none;  
+        }
+        
+        .box-link:hover{
+           text-decoration: none;  
+        }
+        
+        {% for type in types %}
+            #lv-{{ type.suffix}}:hover {
+                background-color: {{ type.panelColor}};
+                opacity: 1.0;                
+            }
+
+        {% endfor %}
+
+    </style>
+{% endblock %}
+
+
+{% block body %}
+    <div class="container">
+
+        <div class="row rgp-header align-items-center">
+            <div class="col">
+                <img class="img-responsive" src="{{ asset('bundles/app/images/rgp_logo_colour.png') }}" style="height: 259px; width: 381px;" alt="">
+            </div>
+            <div class="col rgp-title">
+                <h1 class="display-4">Bienvenidos</h1>
+                <p class="lead">Por favor elija el tipo de atención requerida para iniciar. Gracias</p>
+            </div>
+        </div>
+
+
+        {% for type in types %}
+            {% if loop.index0 is divisibleby(3) %}
+                <div class="row align-items-center">
+                {% endif %} 
+                <div class="col-4 ">
+                    <a class="box-link" href="{{ path('turn_new', {'type': type.id } )}}" >
+                        <div id="lv-{{type.suffix}}" class="box text-center border">
+                            <h2 class="turn-type-suffix">{{type.suffix}}</h2>
+                            <span class="turn-type-description">{{type.description}}</span>
+                        </div>
+                    </a>
+                </div>
+                {% if loop.index is divisibleby(3) or loop.last %}
+                </div>
+            {% endif %}
+        {% endfor %}
+
+    </div>
+{% endblock%}
+
+

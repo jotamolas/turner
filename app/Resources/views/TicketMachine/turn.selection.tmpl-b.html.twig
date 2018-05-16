@@ -1,0 +1,137 @@
+
+{% extends 'base.html.twig' %}
+
+
+{% block stylesheets %}
+
+    <style type="text/css">
+
+        body{
+            font-family: DinPro !important;
+            background: #fff url({{ asset('bundles/app/images/rgp_bg.png') }});
+
+        }
+        .rgp-header{
+            background: #fff ;
+            padding: 20px;
+        }
+
+        .rgp-box-container{
+            margin-top: 25px;
+        }
+
+        .rgp-title{
+            margin-top: 0px;
+        }
+
+        .rgp-box-row-container{
+            width: 100%
+        }
+
+        .row{
+            margin-right: 0px !important;
+            margin-left: 0px !important;
+            margin-bottom: 45px;
+        }
+        .img-container{
+            position:absolute;
+        }
+        .img-responsive{
+            margin: auto;
+            display: block;
+        }
+
+        .turn-type-suffix{
+            font-size: 7rem;
+        }
+        .turn-type-description{
+            font-size: 2rem;
+            font-weight: bolder;
+        }
+
+        .box{
+            background: #fff;
+            height: 250px;
+            box-shadow: 0 0 30px black;
+        }
+
+        .box-ro{
+            background: #fff;
+            height: 75px;
+            box-shadow: 0 0 30px black;
+        }
+
+        .box-ro:active {            
+            box-shadow: 0 0 0;
+            transform: translateY(3px);
+        }
+
+
+        .box:active {            
+            box-shadow: 0 0 0;
+            transform: translateY(3px);
+        }
+
+
+        .box-link {
+            color: #1b1e21c9 !important;
+            text-decoration: none;  
+        }
+
+        .box-link:hover{
+            text-decoration: none;  
+        }
+
+        {% for type in types %}
+            #lv-{{ type.suffix}}:hover {
+                background-color: {{ type.panelColor}};
+                opacity: 1.0;                
+            }
+        {% endfor %}
+
+    </style>
+{% endblock %}
+
+
+{% block body %}
+    <div class="container">
+
+        <div class="row rgp-header align-items-center">
+            <div class="col">
+                <img class="img-responsive" src="{{ asset('bundles/app/images/rgp_isologo_colour.png') }}" style="height: 90px; width: 500px;" alt="">
+            </div>
+            <div class="col rgp-title">
+                <h1 class="display-4">Bienvenidos</h1>
+                <p class="lead">Por favor elija el tipo de atención requerida para iniciar. Gracias</p>
+            </div>
+        </div>
+
+        <div class="row rgp-box-container">
+            {% for type in types %}
+
+                {% if  (loop.index0 is divisibleby(3) or type.suffix == 'RO') %}
+                    <div class="row rgp-box-row-container align-items-center">
+                    {% endif %} 
+
+                    {% if type.suffix == 'RO'%}
+                        <div class="col-8 offset-2 ">
+                            <a class="box-link" href="{{ path('turn_new', {'type': type.id } )}}" >
+                                <div id="lv-{{type.suffix}}" class="box-ro text-center border">
+                                {% else %}
+                                    <div class="col-4 ">
+                                        <a class="box-link" href="{{ path('turn_new', {'type': type.id } )}}" >
+                                            <div id="lv-{{type.suffix}}" class="box text-center border">
+                                                <h2 class="turn-type-suffix">{{type.suffix}}</h2>
+                                            {% endif %}
+                                            <span class="turn-type-description">{{type.description}}</span>
+                                        </div>
+                                    </a>
+                                </div>
+                                {% if loop.index is divisibleby(3) or loop.last %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                </div>
+            </div>
+        {% endblock%}
+

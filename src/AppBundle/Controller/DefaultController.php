@@ -31,8 +31,9 @@ class DefaultController extends Controller {
      * @Route("/turn/create", name="turn_create")
      */
     public function createTurnAction() {
-        $turnTypes = $this->getDoctrine()->getRepository(turnType::class)->findAll();
-        return $this->render('TicketMachine/turn.selection.html.twig', [
+        $turnTypes = $this->getDoctrine()->getRepository(turnType::class)->findBy(['isEnabled' => true]);
+        //dump($turnTypes);
+        return $this->render('TicketMachine/turn.selection.tmpl-b.html.twig', [
                     'types' => $turnTypes
         ]);
     }
@@ -105,6 +106,7 @@ class DefaultController extends Controller {
 
         /* impresión de turno */
         $result = $this->get('print.service')->printTicket($turn);
+        //dump($result);
         return $this->render('TicketMachine/turn.print.html.twig', [
                     'turn' => $turn,
                     'print_result' => $result
@@ -313,10 +315,11 @@ class DefaultController extends Controller {
     public function displayTurns() {
 
         $turns = $this->getDoctrine()->getRepository(turn::class)->findToWaitingRoom(new \DateTime());
+        
         $positions = $this->getDoctrine()->getRepository(position::class)->findAll();
-        dump($positions);
-        dump($turns);
-        return $this->render('WaitingRoom/display.html.twig', [
+        //dump($positions);
+        //dump($turns);
+        return $this->render('WaitingRoom/display-tmpl-b.html.twig', [
                     'turns' => $turns,
                     'positions' => $positions
         ]);

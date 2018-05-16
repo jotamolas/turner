@@ -1,9 +1,13 @@
 
 {% extends 'base.html.twig' %}
+{% block meta %}
+    <meta http-equiv="refresh" content="5"/>
+{% endblock %}
 
 {% block stylesheets %}
     <style type="text/css">
         body{
+            font-family: DinPro !important;
             background: #fff url({{ asset('bundles/app/images/bg-site.png') }});
 
         }

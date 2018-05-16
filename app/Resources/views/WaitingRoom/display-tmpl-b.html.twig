@@ -1,0 +1,109 @@
+{% extends 'base.html.twig' %}
+
+{% block meta %}
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!--meta http-equiv="refresh" content="5"/-->
+{% endblock %}
+
+{% block stylesheets %}
+
+    <style type="text/css">
+                
+        body{
+            font-family: DinPro !important;
+            background: #fff url({{ asset('bundles/app/images/rgp_bg.png') }});
+        }
+        
+        .row{
+            margin-bottom: 20px;
+        }
+        .img-container{
+            position:absolute;
+        }
+        .img-responsive{
+            margin: auto;
+            display: block;
+        }
+
+        .turn-label{
+            font-size: 6rem;
+        }
+        .box-label{
+            font-size: 3.5rem;
+            font-weight: bolder;
+        }
+        .box{
+            background: #fff;
+            height: 250px;
+            box-shadow: 0 0 15px black;
+        }
+        .rgp-header{
+            background: #fff ;
+        }
+
+
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row rgp-header">
+            <div class="col-lg-4 offset-lg-4">
+                <img class="img-responsive" src="{{ asset('bundles/app/images/rgp_isologo_colour.png') }}" style="height: 90px; width: 500px;" alt="">           
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                {% for position in positions%}
+                    {% if loop.index0 is divisibleby(2) %}
+                        <div class="row">
+                        {% endif %} 
+                        {% if position.isEnabled %}
+                            <div class="col-6">
+                                <div class="box text-center border" data-state="{% if position.activeTurn %}{{ position.activeTurn.state.description }}{% endif %}">
+                                    <h1 class="turn-label">{% if position.activeTurn %}{{ position.activeTurn.label }} {% else %} - {% endif %} </h1>
+                                    <h2 class="box-label">{{ position.name}}</h2>
+                                    <h3>{% if position.activeTurn %} {{ position.activeTurn.state.description|capitalize }} {% else %} - {% endif %}</h3>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if loop.index is divisibleby(2) or loop.last %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="col">
+                <img src="{{ asset('bundles/app/images/publicidad.gif') }}" alt="Pulicidad">                
+            </div>
+        </div>    
+
+
+
+
+
+
+    </div>
+
+
+{% endblock%}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.box').each(function () {
+                if ($(this).data('state') == 'calling') {
+                    $.playSound('{{ asset('bundles/app/sounds/call.mp3')}}');
+                    $(this).animate({
+                        backgroundColor: '#baffc9',
+                    });
+                    $(this).effect("bounce", "slow");
+                } else if ($(this).data('state') == 'assigned') {
+                    $(this).animate({
+                        backgroundColor: '#ffb3ba',
+                    });
+                }
+            });
+        });
+    </script>
+{% endblock%}

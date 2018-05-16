@@ -66,10 +66,15 @@ class Session {
      */
     public function close(agentSession $session) {
 
+       
+        /* Limpio la posicion al cerrar sesion */
+        $this->container->get('position.service')->clean($session->getPosition());
+        /* Limpio sesion*/
         $session->setLogout(new \DateTime('now'));
         $session->getPosition()->setState($this->em->getRepository(\AppBundle\Entity\positionState::class)->findOneByDescription('idle'));
         $session->getAgent()->setActiveSession(NULL);
-
+        
+        /* reestructuro estado de turnos */
         foreach ($session->getTurns() as $turn) {
             
             switch ($turn->getState()->getDescription()) {
@@ -82,8 +87,7 @@ class Session {
                     break;
                 default:
                     break;
-            }
-            
+            }            
         }
 
         $this->em->flush();
@@ -96,7 +100,6 @@ class Session {
      * @param agentSession $session
      */
     public function getSessionTime(agentSession $session) {
-
 
         $time = $session->getLogin();
         echo $timestamp = $time->format('H:i:s');
