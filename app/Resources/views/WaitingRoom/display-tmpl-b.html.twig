@@ -2,7 +2,7 @@
 
 {% block meta %}
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!--meta http-equiv="refresh" content="5"/-->
+    <meta http-equiv="refresh" content="5"/>
 {% endblock %}
 
 {% block stylesheets %}
@@ -64,7 +64,7 @@
                                 <div class="box text-center border" data-state="{% if position.activeTurn %}{{ position.activeTurn.state.description }}{% endif %}">
                                     <h1 class="turn-label">{% if position.activeTurn %}{{ position.activeTurn.label }} {% else %} - {% endif %} </h1>
                                     <h2 class="box-label">{{ position.name}}</h2>
-                                    <h3>{% if position.activeTurn %} {{ position.activeTurn.state.description|capitalize }} {% else %} - {% endif %}</h3>
+                                    <h3>{% if position.activeTurn %} {{ position.activeTurn.state.description|trans|upper }} {% else %} - {% endif %}</h3>
                                 </div>
                             </div>
                         {% endif %}
