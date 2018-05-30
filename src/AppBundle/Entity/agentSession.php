@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="agent_session")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\agentSessionRepository")
  */
-class agentSession
-{
+class agentSession {
+
     /**
      * @var int
      *
@@ -38,6 +38,13 @@ class agentSession
     private $position;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="is_open", type="boolean")
+     */
+    private $isOpen;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="login", type="datetime")
@@ -50,15 +57,14 @@ class agentSession
      * @ORM\Column(name="logout", type="datetime", nullable= true)
      */
     private $logout;
-    
+
     /**
      * 
      * @ORM\OneToMany(targetEntity="turn", mappedBy="session")
      * 
      */
     private $turns;
-    
-    
+
     public function __construct() {
         $this->turns = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -68,8 +74,7 @@ class agentSession
      *
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -80,8 +85,7 @@ class agentSession
      *
      * @return agentSession
      */
-    public function setLogin($login)
-    {
+    public function setLogin($login) {
         $this->login = $login;
 
         return $this;
@@ -92,8 +96,7 @@ class agentSession
      *
      * @return \DateTime
      */
-    public function getLogin()
-    {
+    public function getLogin() {
         return $this->login;
     }
 
@@ -104,8 +107,7 @@ class agentSession
      *
      * @return agentSession
      */
-    public function setLogout($logout)
-    {
+    public function setLogout($logout) {
         $this->logout = $logout;
 
         return $this;
@@ -116,8 +118,7 @@ class agentSession
      *
      * @return \DateTime
      */
-    public function getLogout()
-    {
+    public function getLogout() {
         return $this->logout;
     }
 
@@ -128,8 +129,7 @@ class agentSession
      *
      * @return agentSession
      */
-    public function setAgent(\AppBundle\Entity\agent $agent = null)
-    {
+    public function setAgent(\AppBundle\Entity\agent $agent = null) {
         $this->agent = $agent;
 
         return $this;
@@ -140,8 +140,7 @@ class agentSession
      *
      * @return \AppBundle\Entity\agent
      */
-    public function getAgent()
-    {
+    public function getAgent() {
         return $this->agent;
     }
 
@@ -152,8 +151,7 @@ class agentSession
      *
      * @return agentSession
      */
-    public function setPosition(\AppBundle\Entity\position $position = null)
-    {
+    public function setPosition(\AppBundle\Entity\position $position = null) {
         $this->position = $position;
 
         return $this;
@@ -164,13 +162,60 @@ class agentSession
      *
      * @return \AppBundle\Entity\position
      */
-    public function getPosition()
-    {
+    public function getPosition() {
         return $this->position;
     }
-    
-    
-    public function getTurns(){
+
+    public function getTurns() {
         return $this->turns;
+    }
+
+
+    /**
+     * Set isOpen
+     *
+     * @param boolean $isOpen
+     *
+     * @return agentSession
+     */
+    public function setIsOpen($isOpen)
+    {
+        $this->isOpen = $isOpen;
+
+        return $this;
+    }
+
+    /**
+     * Get isOpen
+     *
+     * @return boolean
+     */
+    public function getIsOpen()
+    {
+        return $this->isOpen;
+    }
+
+    /**
+     * Add turn
+     *
+     * @param \AppBundle\Entity\turn $turn
+     *
+     * @return agentSession
+     */
+    public function addTurn(\AppBundle\Entity\turn $turn)
+    {
+        $this->turns[] = $turn;
+
+        return $this;
+    }
+
+    /**
+     * Remove turn
+     *
+     * @param \AppBundle\Entity\turn $turn
+     */
+    public function removeTurn(\AppBundle\Entity\turn $turn)
+    {
+        $this->turns->removeElement($turn);
     }
 }

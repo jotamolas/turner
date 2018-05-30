@@ -42,13 +42,14 @@ class Session {
         $session->setAgent($agent)
                 ->setPosition($position)
                 ->setLogin(new \DateTime('now'))
+                ->setIsOpen(true)
         ;
 
         $this->em->persist($session);
         $this->em->flush();
-        /* pongo la posicion en ocupada */
+        /* pongo la posicion en ocupada y le pongo el usuario activo */
         $position->setState($this->em->getRepository(\AppBundle\Entity\positionState::class)->findOneByDescription('busy'));
-
+        $position->setActiveAgent($agent);
         /* marco la session como sesion activa en el agente  y marco al agente como idle */
         $agent->setState($this->em->getRepository(\AppBundle\Entity\agentState::class)->findOneByDescription('idle'));
         $agent->setActiveSession($session);
@@ -70,7 +71,8 @@ class Session {
         /* Limpio la posicion al cerrar sesion */
         $this->container->get('position.service')->clean($session->getPosition());
         /* Limpio sesion*/
-        $session->setLogout(new \DateTime('now'));
+        $session->setLogout(new \DateTime('now'))
+                ->setIsOpen(false);
         $session->getPosition()->setState($this->em->getRepository(\AppBundle\Entity\positionState::class)->findOneByDescription('idle'));
         $session->getAgent()->setActiveSession(NULL);
         
@@ -104,6 +106,23 @@ class Session {
         $time = $session->getLogin();
         echo $timestamp = $time->format('H:i:s');
         dump($time->format('H:i:s'));
+    }
+    
+    
+    
+    /**
+     * 
+     */
+    public function closeActiveSessions(){
+        
+        $opened_session = $this->em->getRepository(\AppBundle\Entity\agentSession::class)->findBy(['isOpen' => true]);
+        
+        foreach ($opened_session as $s){
+            $this->close($s);
+        }      
+        
+        
+        
     }
 
 }

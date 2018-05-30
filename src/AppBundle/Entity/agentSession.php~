@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="agent_session")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\agentSessionRepository")
  */
-class agentSession
-{
+class agentSession {
+
     /**
      * @var int
      *
@@ -23,7 +23,7 @@ class agentSession
 
     /**
      * @var agent
-     * @ORM\ManyToOne(targetEntity="agent")
+     * @ORM\ManyToOne(targetEntity="agent", inversedBy="sessions")
      * @ORM\JoinColumn(name="agent", referencedColumnName="id",nullable=true)
      * 
      */
@@ -31,11 +31,18 @@ class agentSession
 
     /**
      * @var position
-     * @ORM\ManyToOne(targetEntity="position")
+     * @ORM\ManyToOne(targetEntity="position", inversedBy="sessions")
      * @ORM\JoinColumn(name="position", referencedColumnName="id",nullable=true)
      * 
      */
     private $position;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="is_open", type="boolean")
+     */
+    private $isOpen;
 
     /**
      * @var \DateTime
@@ -47,18 +54,27 @@ class agentSession
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="logout", type="datetime")
+     * @ORM\Column(name="logout", type="datetime", nullable= true)
      */
     private $logout;
 
+    /**
+     * 
+     * @ORM\OneToMany(targetEntity="turn", mappedBy="session")
+     * 
+     */
+    private $turns;
+
+    public function __construct() {
+        $this->turns = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
      *
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -69,8 +85,7 @@ class agentSession
      *
      * @return agentSession
      */
-    public function setLogin($login)
-    {
+    public function setLogin($login) {
         $this->login = $login;
 
         return $this;
@@ -81,8 +96,7 @@ class agentSession
      *
      * @return \DateTime
      */
-    public function getLogin()
-    {
+    public function getLogin() {
         return $this->login;
     }
 
@@ -93,8 +107,7 @@ class agentSession
      *
      * @return agentSession
      */
-    public function setLogout($logout)
-    {
+    public function setLogout($logout) {
         $this->logout = $logout;
 
         return $this;
@@ -105,9 +118,56 @@ class agentSession
      *
      * @return \DateTime
      */
-    public function getLogout()
-    {
+    public function getLogout() {
         return $this->logout;
     }
-}
 
+    /**
+     * Set agent
+     *
+     * @param \AppBundle\Entity\agent $agent
+     *
+     * @return agentSession
+     */
+    public function setAgent(\AppBundle\Entity\agent $agent = null) {
+        $this->agent = $agent;
+
+        return $this;
+    }
+
+    /**
+     * Get agent
+     *
+     * @return \AppBundle\Entity\agent
+     */
+    public function getAgent() {
+        return $this->agent;
+    }
+
+    /**
+     * Set position
+     *
+     * @param \AppBundle\Entity\position $position
+     *
+     * @return agentSession
+     */
+    public function setPosition(\AppBundle\Entity\position $position = null) {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    /**
+     * Get position
+     *
+     * @return \AppBundle\Entity\position
+     */
+    public function getPosition() {
+        return $this->position;
+    }
+
+    public function getTurns() {
+        return $this->turns;
+    }
+
+}

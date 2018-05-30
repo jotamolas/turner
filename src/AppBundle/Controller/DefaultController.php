@@ -324,5 +324,18 @@ class DefaultController extends Controller {
                     'positions' => $positions
         ]);
     }
+    
+    
+    /**
+     * @Route("/turn/test"), name="turn_display")
+     */
+    public function testSessions(){
+        $opened_session = $this->getDoctrine()->getRepository(\AppBundle\Entity\agentSession::class)->findBy(['isOpen' => true]);
+        /*foreach ($opened_session as $s){
+            $this->get('session.service')->close($s);
+        }*/
+        
+        dump($opened_session);
+    }
 
 }
