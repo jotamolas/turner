@@ -130,10 +130,11 @@
 
                            {% endif %}
                            ">
-                            <div class="lv-tile-inner" style="width: 265px; height: 224px; transform: scale(0.75);">
+                            <div class="lv-tile-inner" style="width: 265px; height: 250px; transform: scale(0.75);">
                                 <div style="margin-bottom: 2px;"></div>
                                 <div class="lv-plus lv-meta-symbol">{{position.name}}</div>        
-                                <span class="lv-plus-subtitle lv-meta-subtitle text-bold">{{position.state.description}}</span>
+                                <div><span class="lv-plus-subtitle lv-meta-subtitle bold">{{position.state.description|trans}}</span></div>
+                                {% if position.state.description == 'busy' %}<div><span>{{position.activeAgent.username}}</span></div> {% endif %}
                             </div>
                         </a>
                     </div>

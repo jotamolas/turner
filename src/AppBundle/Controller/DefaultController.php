@@ -192,8 +192,7 @@ class DefaultController extends Controller {
                         ->setState($this->getDoctrine()->getRepository(turnState::class)->findOneBy(['description' => 'assigned']))
                 ;
                 $agent->setState($this->getDoctrine()->getRepository(agentState::class)->findOneBy(['description' => 'busy']))
-                        ->getActiveSession()->getPosition()->setActiveAgent($agent)
-                        ->setActiveTurn($turn);
+                        ->getActiveSession()->getPosition()->setActiveTurn($turn);
 
                 $em = $this->getDoctrine()->getManager();
                 $em->flush();
@@ -214,8 +213,7 @@ class DefaultController extends Controller {
                         ->setState($this->getDoctrine()->getRepository(turnState::class)->findOneBy(['description' => 'assigned']))
                 ;
                 $agent->setState($this->getDoctrine()->getRepository(agentState::class)->findOneBy(['description' => 'busy']))
-                        ->getActiveSession()->getPosition()->setActiveAgent($agent)
-                        ->setActiveTurn($turn);
+                        ->getActiveSession()->getPosition()->setActiveTurn($turn);
                 ;
 
                 $em = $this->getDoctrine()->getManager();
@@ -248,7 +246,7 @@ class DefaultController extends Controller {
                 $turn->setState($this->getDoctrine()->getRepository(turnState::class)->find(3))
                         ->getAgent()->setState($this->getDoctrine()->getRepository(agentState::class)->find(1))
                         ;
-                $turn->getPosition()->setActiveAgent(NULL)->setActiveTurn(NULL);
+                $turn->getPosition()->setActiveTurn(NULL);
 
                 $em = $this->getDoctrine()->getManager();
                 $em->flush();
@@ -286,8 +284,7 @@ class DefaultController extends Controller {
                         ->setState($this->getDoctrine()->getRepository(turnState::class)->findOneBy(['description' => 'calling']))
                 ;
                 $agent->setState($this->getDoctrine()->getRepository(agentState::class)->findOneBy(['description' => 'busy']))
-                        ->getActiveSession()->getPosition()->setActiveAgent($agent)
-                        ->setActiveTurn($turn);
+                        ->getActiveSession()->getPosition()->setActiveTurn($turn);
                 $em = $this->getDoctrine()->getManager();
                 $em->flush();
                 $this->addFlash(
