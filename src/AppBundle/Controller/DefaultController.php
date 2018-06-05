@@ -316,7 +316,7 @@ class DefaultController extends Controller {
         $positions = $this->getDoctrine()->getRepository(position::class)->findAll();
         //dump($positions);
         //dump($turns);
-        return $this->render('WaitingRoom/display-tmpl-b.html.twig', [
+        return $this->render('WaitingRoom/display-tmpl-c.html.twig', [
                     'turns' => $turns,
                     'positions' => $positions
         ]);
